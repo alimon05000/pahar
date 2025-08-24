@@ -1,362 +1,225 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>IronHome — Грудь & Руки</title>
-  <meta name="theme-color" content="#111111" />
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="data:image/svg+xml;utf8,<?xml version='1.0'?><?xml-stylesheet type='text/css' href='#'?> <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%23a8ff78'/><stop offset='1' stop-color='%238af3ff'/></linearGradient></defs><rect width='128' height='128' rx='24' fill='url(%23g)'/><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' font-size='74' font-family='system-ui,Segoe UI,Roboto' fill='%23000' opacity='.85'>🏠</text></svg>">
-
-  <style>
-    :root {
-      --bg: #0b0c0f;
-      --card: rgba(255,255,255,0.06);
-      --elev: rgba(255,255,255,0.15);
-      --txt: #e6e6e6;
-      --muted: #a9b0bd;
-      --acc: #77e0ff;
-      --ok: #80ffb0;
-      --warn: #ffd36b;
-      --err: #ff7a7a;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
-      --blur: blur(12px);
-    }
-    /* Light theme */
-    [data-theme="light"] {
-      --bg: #f5f7fb;
-      --card: rgba(255,255,255,.9);
-      --elev: rgba(0,0,0,.06);
-      --txt: #0a0c10;
-      --muted: #566074;
-      --acc: #2264ff;
-      --ok: #0ca678;
-      --warn: #f08c00;
-      --err: #d6336c;
-      --shadow: 0 10px 30px rgba(0,0,0,.12);
-    }
-    /* Aurora theme (персональная) */
-    [data-theme="aurora"] body {
-      background:
-        radial-gradient(1200px 800px at 10% 10%, rgba(120,255,214,.12), transparent 40%),
-        radial-gradient(900px 600px at 90% 20%, rgba(138,243,255,.14), transparent 35%),
-        radial-gradient(1000px 700px at 50% 110%, rgba(255,173,234,.12), transparent 40%),
-        var(--bg);
-      backdrop-filter: var(--blur);
-    }
-    html, body {
-      height: 100%;
-    }
-    body {
-      margin: 0; color: var(--txt); background: var(--bg);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-      display: grid; grid-template-rows: auto 1fr auto;
-    }
-    header, footer {
-      padding: 14px clamp(14px, 2.5vw, 28px);
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: var(--blur);
-      background: linear-gradient(to bottom, rgba(0,0,0,.25), transparent);
-    }
-    [data-theme="light"] header { background: linear-gradient(to bottom, rgba(255,255,255,.7), rgba(255,255,255,0)); }
-    .bar {
-      display: flex; align-items: center; gap: 10px; justify-content: space-between;
-      max-width: 1100px; margin: 0 auto;
-    }
-    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px; }
-    .logo {
-      width: 36px; height: 36px; border-radius: 12px;
-      background: conic-gradient(from 210deg, #a8ff78, #8af3ff, #ffadea, #a8ff78);
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,.35), var(--shadow);
-      display:grid; place-items:center; font-size:20px;
-    }
-    .chip { padding: 6px 10px; border-radius: 999px; background: var(--card); box-shadow: inset 0 0 0 1px var(--elev); color: var(--muted); }
-    main { padding: 22px clamp(14px,2.5vw,28px) 28px; }
-    .wrap { max-width: 1100px; margin: 0 auto; display: grid; gap: 18px; }
-    .grid {
-      display: grid; gap: 18px;
-      grid-template-columns: 1.1fr 1fr;
-    }
-    @media (max-width: 980px) {
-      .grid { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: var(--card); border-radius: var(--radius);
-      box-shadow: var(--shadow), inset 0 0 0 1px var(--elev);
-      padding: clamp(16px, 2vw, 22px);
-      backdrop-filter: var(--blur);
-    }
-    h1 { margin: 0 0 6px; font-size: clamp(24px, 3vw, 34px); }
-    h2 { margin: 0 0 12px; font-size: clamp(18px, 2.2vw, 22px); }
-    .muted { color: var(--muted); }
-    .controls { display:flex; flex-wrap: wrap; gap: 8px; align-items:center; }
-    select, input[type="number"], input[type="date"], button, .btn {
-      border: none; outline: none; border-radius: 12px;
-      background: var(--card); color: var(--txt);
-      box-shadow: inset 0 0 0 1px var(--elev);
-      padding: 10px 12px; font-size: 14px;
-    }
-    button, .btn { cursor: pointer; transition: transform .05s ease, box-shadow .2s ease, background .2s ease; }
-    button:hover, .btn:hover { transform: translateY(-1px); }
-    .btn.primary { background: linear-gradient(135deg, var(--acc), #8af3ff); color: #001018; box-shadow: var(--shadow); }
-    .btn.ghost { background: transparent; box-shadow: inset 0 0 0 1px var(--elev); }
-    .btn.ok { background: linear-gradient(135deg, var(--ok), #b3ffcc); color: #00140a; }
-    .btn.warn { background: linear-gradient(135deg, var(--warn), #ffe9a8); color: #261a00; }
-    .row { display:flex; gap: 10px; flex-wrap: wrap; }
-    .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-    @media (max-width: 760px){ .kpis { grid-template-columns: repeat(2,1fr);} }
-    .kpi { padding: 14px; border-radius: 14px; background: linear-gradient(180deg, rgba(255,255,255,.06), transparent); box-shadow: inset 0 0 0 1px var(--elev); }
-    .kpi b { font-size: 22px; display:block; margin-top: 6px; }
-    .list { display: grid; gap: 10px; }
-    .item {
-      display:flex; gap: 12px; align-items: center; justify-content: space-between;
-      padding: 12px; border-radius: 12px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px var(--elev);
-    }
-    .item .title { font-weight: 600; }
-    .badge { padding: 4px 8px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,.08); color: var(--muted); box-shadow: inset 0 0 0 1px var(--elev);}
-    .progress { height: 10px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
-    .progress > span { display:block; height:100%; background: linear-gradient(90deg, var(--acc), #8af3ff); }
-    .split { display:grid; grid-template-columns: 1fr auto; align-items:center; gap: 10px; }
-    .stack { display:grid; gap: 12px; }
-    .pill { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px var(--elev);}
-    .install-tip { display:none; }
-    .theme-toggle { display:flex; gap:6px; }
-    .theme-toggle button { padding: 8px 10px; }
-    footer { text-align:center; color: var(--muted); }
-    .disclaimer { font-size: 12px; color: var(--muted); }
-    .hr { height:1px; background: var(--elev); margin: 6px 0 14px; opacity:.7; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 12px; color: var(--muted); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+    <title>Smart Chest & Arms Trainer</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #007bff;
+            --card-bg: #f5f5f5;
+            --shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body.dark {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: #2c2c2c;
+            --shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        body.aurora {
+            --bg-color: linear-gradient(135deg, #00c4ff, #ff00cc, #00ff99);
+            --text-color: #ffffff;
+            --card-bg: rgba(255,255,255,0.1);
+            --shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: var(--bg-color);
+            backdrop-filter: blur(10px);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        header {
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        h1 {
+            font-size: 1.5rem;
+        }
+        #theme-toggle {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        main {
+            max-width: 800px;
+            width: 100%;
+            padding: 1rem;
+        }
+        .workout-card, .progress-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+        .exercise {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #progress-chart {
+            margin: 1rem 0;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+            button {
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="bar">
-      <div class="brand">
-        <div class="logo">🏠</div>
-        <div>
-          <div>IronHome</div>
-          <div class="mono">грудь • бицепс • трицепс — без инвентаря</div>
-        </div>
-      </div>
-      <div class="controls">
-        <div class="theme-toggle" role="group" aria-label="Переключатель темы">
-          <button class="btn ghost" data-set-theme="light" title="Светлая">☀️</button>
-          <button class="btn ghost" data-set-theme="dark" title="Тёмная">🌙</button>
-          <button class="btn ghost" data-set-theme="aurora" title="Aurora">🫧</button>
-        </div>
-        <button class="btn" id="installBtn" style="display:none">Установить</button>
-        <button class="btn" id="exportBtn" title="Экспорт прогресса">Экспорт</button>
-        <input type="file" id="importInput" accept="application/json" style="display:none" />
-        <button class="btn" id="importBtn" title="Импорт прогресса">Импорт</button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <div class="wrap">
-      <section class="grid">
-        <div class="card">
-          <h1>Твоя умная программа тренировок</h1>
-          <div class="muted">Алгоритм подстраивается под твой уровень через RPE/RIR и авто-прогрессию. Всё дома, без предметов.</div>
-          <div class="hr"></div>
-
-          <div class="kpis" id="kpis">
-            <div class="kpi"><div class="muted">Неделя</div><b id="kpiWeek">1</b></div>
-            <div class="kpi"><div class="muted">Сессия</div><b id="kpiSession">A</b></div>
-            <div class="kpi"><div class="muted">Объём (повт.)</div><b id="kpiVolume">0</b></div>
-            <div class="kpi"><div class="muted">Последняя RPE</div><b id="kpiRPE">—</b></div>
-          </div>
-
-          <div class="hr"></div>
-          <div class="stack">
-            <div class="split">
-              <h2>Текущая тренировка</h2>
-              <div class="row">
-                <button class="btn primary" id="startBtn">Старт/Обновить</button>
-                <button class="btn ok" id="completeBtn">Отметить выполненной</button>
-                <button class="btn warn" id="skipBtn">Пропустить</button>
-              </div>
+    <header>
+        <h1>Smart Chest & Arms Trainer</h1>
+        <button id="theme-toggle">Сменить тему</button>
+    </header>
+    <main>
+        <section class="workout-card">
+            <h2>Тренировка</h2>
+            <div id="workout-list"></div>
+            <button id="start-workout">Начать тренировку</button>
+            <div id="rpe-input" style="display: none;">
+                <label>RPE (1-10): <input type="number" id="rpe-value" min="1" max="10"></label>
+                <button id="submit-rpe">Сохранить RPE</button>
             </div>
-            <div class="list" id="workoutList"></div>
-            <div class="disclaimer">Подсказка: используй честную RPE (10 = отказ). Регулируй повторения, чтобы оставалась цельная техника.</div>
-          </div>
-        </div>
+        </section>
+        <section class="progress-card">
+            <h2>Прогресс</h2>
+            <canvas id="progress-chart"></canvas>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const workouts = [
+            { name: "Отжимания", sets: 3, reps: 10, rpe: 6, progression: 2 },
+            { name: "Алмазные отжимания", sets: 3, reps: 8, rpe: 7, progression: 1 },
+            { name: "Планка с подтягиванием рук", sets: 3, reps: 12, rpe: 6, progression: 2 },
+            { name: "Обратные отжимания на стуле", sets: 3, reps: 10, rpe: 7, progression: 1 }
+        ];
 
-        <div class="card">
-          <h2>Быстрый старт и калибровка</h2>
-          <div class="stack">
-            <div class="row">
-              <div class="pill">Уровень: 
-                <select id="level">
-                  <option value="novice">Новичок</option>
-                  <option value="intermediate">Средний</option>
-                  <option value="advanced">Продвинутый</option>
-                </select>
-              </div>
-              <div class="pill">Цель:
-                <select id="goal">
-                  <option value="balanced">Сбаланс</option>
-                  <option value="strength">Сила</option>
-                  <option value="hypertrophy">Масса</option>
-                </select>
-              </div>
-            </div>
+        let progressData = JSON.parse(localStorage.getItem('progressData')) || [];
+        let currentTheme = localStorage.getItem('theme') || 'light';
 
-            <div class="row">
-              <label class="pill">Макс отжиманий (1 подход): <input type="number" id="maxPush" min="1" max="200" value="15" style="width:88px"></label>
-              <label class="pill">RPE при макс-подходе: 
-                <select id="maxRPE">
-                  <option>7</option><option>8</option><option selected>9</option><option>10</option>
-                </select>
-              </label>
-              <button class="btn" id="saveBaseline">Сохранить базу</button>
-            </div>
+        function applyTheme(theme) {
+            document.body.className = theme;
+            localStorage.setItem('theme', theme);
+        }
 
-            <div class="stack">
-              <div class="muted">Методика:</div>
-              <div class="item">
-                <div>
-                  <div class="title">A/B-микроцикл • 3 дня/нед</div>
-                  <div class="muted">A: грудь+триц • B: грудь+биц • RIR-регуляция, авто-прогресс, фокус на качественной технике.</div>
-                </div>
-                <span class="badge">научный RPE/RIR</span>
-              </div>
-              <div class="item">
-                <div>
-                  <div class="title">Без инвентаря — чисто тело</div>
-                  <div class="muted">Вариации отжиманий + само-сопротивление для бицепса/трицепса (эффективные изометрики и сложные углы).</div>
-                </div>
-                <span class="badge">дома</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        applyTheme(currentTheme);
 
-      <section class="card">
-        <h2>История и прогресс</h2>
-        <div class="list" id="history"></div>
-      </section>
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'aurora' : 'light';
+            applyTheme(currentTheme);
+        });
 
-      <section class="card">
-        <h2>Справочник упражнений (0 инвентаря)</h2>
-        <div class="list" id="library"></div>
-      </section>
-    </div>
-  </main>
+        function renderWorkoutList() {
+            const workoutList = document.getElementById('workout-list');
+            workoutList.innerHTML = '';
+            workouts.forEach((workout, index) => {
+                const div = document.createElement('div');
+                div.className = 'exercise';
+                div.innerHTML = `
+                    <span>${workout.name}: ${workout.sets} сета x ${workout.reps} повторений (RPE ${workout.rpe})</span>
+                    <button onclick="updateProgress(${index})">Завершить</button>
+                `;
+                workoutList.appendChild(div);
+            });
+        }
 
-  <footer>
-    <div>© <span id="year"></span> IronHome • PWA • офлайн • без трекинга</div>
-  </footer>
+        function updateProgress(index) {
+            document.getElementById('rpe-input').style.display = 'block';
+            document.getElementById('submit-rpe').onclick = () => {
+                const rpe = parseInt(document.getElementById('rpe-value').value);
+                if (rpe >= 1 && rpe <= 10) {
+                    workouts[index].rpe = rpe;
+                    if (rpe < 7) {
+                        workouts[index].reps += workouts[index].progression;
+                    }
+                    progressData.push({
+                        date: new Date().toISOString().split('T')[0],
+                        exercise: workouts[index].name,
+                        reps: workouts[index].reps,
+                        rpe
+                    });
+                    localStorage.setItem('progressData', JSON.stringify(progressData));
+                    document.getElementById('rpe-input').style.display = 'none';
+                    renderWorkoutList();
+                    updateChart();
+                }
+            };
+        }
 
-  <script>
-  // ======= PWA install =======
-  let deferredPrompt;
-  const installBtn = document.getElementById('installBtn');
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = 'inline-block';
-  });
-  installBtn?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    installBtn.style.display = 'none';
-  });
+        function updateChart() {
+            const ctx = document.getElementById('progress-chart').getContext('2d');
+            const labels = [...new Set(progressData.map(d => d.date))];
+            const datasets = workouts.map(workout => ({
+                label: workout.name,
+                data: labels.map(label => {
+                    const entry = progressData.find(d => d.date === label && d.exercise === workout.name);
+                    return entry ? entry.reps : 0;
+                }),
+                borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                fill: false
+            }));
 
-  // ======= Service Worker =======
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(console.error);
-    });
-  }
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Повторения' } },
+                        x: { title: { display: true, text: 'Дата' } }
+                    }
+                }
+            });
+        }
 
-  // ======= Theme =======
-  const themeButtons = document.querySelectorAll('[data-set-theme]');
-  const setTheme = (t) => {
-    document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('ih_theme', t);
-  };
-  setTheme(localStorage.getItem('ih_theme') || 'dark');
-  themeButtons.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.setTheme)));
+        document.getElementById('start-workout').addEventListener('click', () => {
+            renderWorkoutList();
+        });
 
-  // ======= Data & Model =======
-  const $ = (id)=>document.getElementById(id);
-  const state = {
-    baseline: JSON.parse(localStorage.getItem('ih_baseline') || '{}'),
-    history: JSON.parse(localStorage.getItem('ih_history') || '[]'),
-    week: parseInt(localStorage.getItem('ih_week') || '1', 10),
-    sessionIndex: parseInt(localStorage.getItem('ih_sessionIndex') || '0', 10), // 0:A, 1:B
-    volume: 0,
-    lastRPE: null,
-  };
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
 
-  const EXERCISES = [
-    // ГРУДЬ + ТРИЦ
-    { key:'push_std', name:'Отжимания классические', muscle:'грудь/триц', type:'reps',
-      cues:'Корпус единым блоком, локти ~30-45°.', levels:{novice:[6,10], intermediate:[10,16], advanced:[16,24]} },
-    { key:'push_diamond', name:'Алмазные отжимания', muscle:'триц/грудь', type:'reps',
-      cues:'Кисти ромбом под грудью. Держи локти близко.', levels:{novice:[4,8], intermediate:[8,12], advanced:[12,18]} },
-    { key:'push_lean', name:'Псевдо-планш наклон', muscle:'передн. плечо/грудь/триц', type:'seconds',
-      cues:'Плечи над кистями, корпус вперёд, лопатки проактивно.', levels:{novice:[15,25], intermediate:[25,40], advanced:[40,60]} },
-
-    // ГРУДЬ + БИЦ (само-сопротивление)
-    { key:'curl_sr', name:'Само-curl (ладонь против ладони)', muscle:'биц', type:'seconds',
-      cues:'Одной рукой тяни вверх, другой равномерно дави вниз. Дыхание ровно.', levels:{novice:[20,30], intermediate:[30,45], advanced:[45,60]} },
-    { key:'curl_iso_thigh', name:'Изометрия бицепса под бедром', muscle:'биц', type:'seconds',
-      cues:'Сидя: предплечье тянет вверх, бедро сопротивляется. Изометрия средней-высокой мощности.', levels:{novice:[20,30], intermediate:[30,45], advanced:[45,60]} },
-
-    // ТРИЦ без предметов
-    { key:'triceps_floor_press', name:'Изометрия трицепса сидя сзади упор', muscle:'триц', type:'seconds',
-      cues:'Сидя, кисти сзади на полу, пытайся «распрямить» локоть не отрывая таз (давление в пол).', levels:{novice:[20,30], intermediate:[30,45], advanced:[45,60]} },
-
-    // Доп. вариации на прогресс
-    { key:'push_archer', name:'Отжимания лучником (псевдо)', muscle:'грудь/триц', type:'reps',
-      cues:'Смещай вес на одну руку, другая — опора на пальцах.', levels:{novice:[3,6], intermediate:[6,10], advanced:[10,14]} },
-  ];
-
-  const LIBRARY_DESCR = {
-    push_std:'База. Регулируй сложность темпом: 3с вниз, пауза 1с внизу.',
-    push_diamond:'Больше акцента на трицепс и внутреннюю грудь.',
-    push_lean:'Смещай центр тяжести вперёд, держи лопатки стабильно.',
-    curl_sr:'10–15с «выход» + 10–15с «удержание» = 1 подход.',
-    curl_iso_thigh:'Контролируй шею и осанку, не тужься.',
-    triceps_floor_press:'Дави руками в пол, чувствуя заднюю поверхность руки.',
-    push_archer:'Следи за ровной линией корпуса, не проваливайся в плечах.',
-  };
-
-  function save() {
-    localStorage.setItem('ih_baseline', JSON.stringify(state.baseline));
-    localStorage.setItem('ih_history', JSON.stringify(state.history));
-    localStorage.setItem('ih_week', String(state.week));
-    localStorage.setItem('ih_sessionIndex', String(state.sessionIndex));
-  }
-
-  // ======= Baseline =======
-  function initBaselineUI() {
-    if (state.baseline.level) {
-      $('level').value = state.baseline.level;
-      $('goal').value = state.baseline.goal;
-      $('maxPush').value = state.baseline.maxPush;
-      $('maxRPE').value = state.baseline.maxRPE;
-    }
-    $('saveBaseline').addEventListener('click', () => {
-      state.baseline = {
-        level: $('level').value,
-        goal: $('goal').value,
-        maxPush: Math.max(1, parseInt($('maxPush').value||'1',10)),
-        maxRPE: parseInt($('maxRPE').value||'9',10),
-      };
-      save();
-      genWorkout();
-    });
-  }
-
-  // ======= Workout Generator =======
-  function repRange(key){
-    const lvl = state.baseline.level || 'novice';
-    const ex = EXER
+        renderWorkoutList();
+        updateChart();
+    </script>
+</body>
+</html>
