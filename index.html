@@ -3,223 +3,849 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
-    <title>Smart Chest & Arms Trainer</title>
+    <title>Умные тренировки дома</title>
+    <meta name="theme-color" content="#2c3e50">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogItCg0LzQstC10YDQuNGC0Ywg0YLRgNC40L3QsdGD0YHQsCIsCiAgInNob3J0X25hbWUiOiAi0KLRgNC40L3QsdGD0YEiLAogICJkZXNjcmlwdGlvbiI6ICLQpNCw0LvRjNGP0L3QvdCw0Y8g0YLRgNC40L3QsdGD0YHQsCDQuNC90YLQtdC70YzQvdC+0LPQviDQv9GA0L7Qs9C40L3Qs9CwINC00LvRjyDQstGA0LXQvNGPINC/0YDQuNC90LPQsNGO0YIg0LIg0LTQvtC80LAsINC/0L4g0LrQvtC80YMg0LTQu9GPINC00LXQu9Cw0YLRjCDQvNC10YHRj9GG0LAiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzJjM2U1MCIsCiAgInRoZW1lX2NvbG9yIjogIiMyYzNlNTAiLAogICJvcmllbnRhdGlvbiI6ICJhbnkiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSEJ5WlhObGNuWmxRWE53WldOMFVtRjBhVzg5SW5oTmFXNVpUV2x1SUcxbFpYUWlJSFpwWlhkQ2IzZzlJakFnTUNBek5UQWdNelV3SWo0S0lDQWdJRHh6ZEhsc1pUNHVZbUZ6WlNCN0lHWnBiR3c2SUhkb2FYUmxPeUJtYjI1MExXWmhiV2xzZVRvZ2MyVnlhV1k3SUdadmJuUXRjMmw2WlRvZ01UUndlRHNnZlR3dmMzWm5QZ289IiwKICAgICAgInNpemVzIjogIjE0NHgxNDQiLAogICAgICAidHlwZSIogICAgICA6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --accent-color: #007bff;
-            --card-bg: #f5f5f5;
-            --shadow: 0 4px 8px rgba(0,0,0,0.1);
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --background: #ecf0f1;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        body.dark {
-            --bg-color: #1a1a1a;
-            --text-color: #ffffff;
-            --card-bg: #2c2c2c;
-            --shadow: 0 4px 8px rgba(0,0,0,0.3);
+
+        [data-theme="dark"] {
+            --primary: #2980b9;
+            --secondary: #27ae60;
+            --accent: #c0392b;
+            --background: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #e6e6e6;
+            --text-light: #b8b8b8;
+            --shadow: rgba(0, 0, 0, 0.3);
         }
-        body.aurora {
-            --bg-color: linear-gradient(135deg, #00c4ff, #ff00cc, #00ff99);
-            --text-color: #ffffff;
-            --card-bg: rgba(255,255,255,0.1);
-            --shadow: 0 4px 8px rgba(0,0,0,0.2);
-            background: var(--bg-color);
-            backdrop-filter: blur(10px);
+
+        [data-theme="aurora"] {
+            --primary: #8A2BE2;
+            --secondary: #00CED1;
+            --accent: #FF1493;
+            --background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --text: #E0FFFF;
+            --text-light: #AFEEEE;
+            --shadow: rgba(0, 0, 0, 0.2);
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: var(--transition);
         }
+
         body {
-            background: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: all 0.3s ease;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         header {
-            width: 100%;
-            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--card-bg);
-            box-shadow: var(--shadow);
-        }
-        h1 {
-            font-size: 1.5rem;
-        }
-        #theme-toggle {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        main {
-            max-width: 800px;
-            width: 100%;
-            padding: 1rem;
-        }
-        .workout-card, .progress-card {
-            background: var(--card-bg);
+            padding: 15px 20px;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px var(--shadow);
             border-radius: 10px;
-            padding: 1rem;
-            margin: 1rem 0;
-            box-shadow: var(--shadow);
+            margin-bottom: 20px;
         }
-        .exercise {
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo svg {
+            margin-right: 10px;
+            fill: var(--primary);
+        }
+
+        .theme-switcher {
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-btn.light {
+            background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+        }
+
+        .theme-btn.dark {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+
+        .theme-btn.aurora {
+            background: linear-gradient(135deg, #8A2BE2, #00CED1, #FF1493);
+        }
+
+        .theme-btn.pro {
+            background: linear-gradient(135deg, #ffd700, #ff8c00, #ff4500);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title svg {
+            margin-right: 10px;
+            fill: var(--primary);
+        }
+
+        .workout-card {
+            grid-column: 1 / -1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: var(--primary);
+            color: white;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .exercise-list {
+            list-style-type: none;
+        }
+
+        .exercise-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
         }
-        button {
-            background: var(--accent-color);
-            color: white;
+
+        .exercise-info {
+            flex: 1;
+        }
+
+        .exercise-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .exercise-details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            font-size: 1.5rem;
             cursor: pointer;
+            color: var(--text-light);
         }
-        #progress-chart {
-            margin: 1rem 0;
+
+        .form-group {
+            margin-bottom: 20px;
         }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.2rem;
-            }
-            button {
-                padding: 0.4rem 0.8rem;
-            }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--text);
+        }
+
+        .pro-overlay {
+            position: relative;
+        }
+
+        .pro-overlay::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.7), rgba(255, 140, 0, 0.7));
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .pro-overlay:hover::after {
+            content: "PRO";
+            opacity: 1;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .workout-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .rpe-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .rpe-btn {
+            padding: 8px 15px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rpe-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Smart Chest & Arms Trainer</h1>
-        <button id="theme-toggle">Сменить тему</button>
-    </header>
-    <main>
-        <section class="workout-card">
-            <h2>Тренировка</h2>
-            <div id="workout-list"></div>
-            <button id="start-workout">Начать тренировку</button>
-            <div id="rpe-input" style="display: none;">
-                <label>RPE (1-10): <input type="number" id="rpe-value" min="1" max="10"></label>
-                <button id="submit-rpe">Сохранить RPE</button>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M17.66 8L12 2.35 6.34 8C4.78 9.56 4 11.64 4 13.64s.78 4.11 2.34 5.67 3.61 2.35 5.66 2.35 4.1-.79 5.66-2.35S20 15.64 20 13.64 19.22 9.56 17.66 8zM6 14c.01-2 .62-3.27 1.76-4.4L12 5.27l4.24 4.38C17.38 10.77 17.99 12 18 14H6z"/>
+                </svg>
+                Умные тренировки
             </div>
-        </section>
-        <section class="progress-card">
-            <h2>Прогресс</h2>
-            <canvas id="progress-chart"></canvas>
-        </section>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <div class="theme-switcher">
+                <button class="theme-btn light" data-theme="light" title="Светлая тема"></button>
+                <button class="theme-btn dark" data-theme="dark" title="Тёмная тема"></button>
+                <button class="theme-btn aurora" data-theme="aurora" title="Aurora тема"></button>
+                <button class="theme-btn pro" title="PRO тема" id="pro-theme-btn">P</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="card workout-card">
+                <h2 class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6z M20 2H8C6.9 2 6 2.9 6 4v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 12v-2h4v2h-4zm-4-4V8h8v2h-8zm-2 6v-2h2v2H8z"/>
+                    </svg>
+                    Текущая тренировка
+                </h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="workout-progress"></div>
+                </div>
+                <p id="workout-description">Сегодня: Тренировка груди и трицепса. Всего 4 упражнения.</p>
+                
+                <ul class="exercise-list" id="exercise-list">
+                    <li class="exercise-item">
+                        <div class="exercise-info">
+                            <div class="exercise-title">Отжимания от пола</div>
+                            <div class="exercise-details">3 подхода по 10-12 повторений</div>
+                        </div>
+                        <button class="btn btn-secondary">Выполнено</button>
+                    </li>
+                    <li class="exercise-item">
+                        <div class="exercise-info">
+                            <div class="exercise-title">Алмазные отжимания</div>
+                            <div class="exercise-details">3 подхода по 8-12 повторений</div>
+                        </div>
+                        <button class="btn">Начать</button>
+                    </li>
+                    <li class="exercise-item">
+                        <div class="exercise-info">
+                            <div class="exercise-title">Отжимания с узкой постановкой</div>
+                            <div class="exercise-details">3 подхода до отказа</div>
+                        </div>
+                        <button class="btn">Начать</button>
+                    </li>
+                    <li class="exercise-item">
+                        <div class="exercise-info">
+                            <div class="exercise-title">Обратные отжимания от стула</div>
+                            <div class="exercise-details">3 подхода по 12-15 повторений</div>
+                        </div>
+                        <button class="btn">Начать</button>
+                    </li>
+                </ul>
+
+                <div class="rpe-selector">
+                    <p>Насколько сложно далась тренировка?</p>
+                    <button class="rpe-btn" data-rpe="6">RPE 6 (Легко)</button>
+                    <button class="rpe-btn" data-rpe="7">RPE 7</button>
+                    <button class="rpe-btn" data-rpe="8">RPE 8 (Идеально)</button>
+                    <button class="rpe-btn" data-rpe="9">RPE 9 (Тяжело)</button>
+                    <button class="rpe-btn" data-rpe="10">RPE 10 (Максимум)</button>
+                </div>
+
+                <div class="workout-controls">
+                    <button class="btn btn-accent" id="finish-workout">Завершить тренировку</button>
+                    <button class="btn" id="change-program">Изменить программу</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97z"/>
+                    </svg>
+                    Прогресс
+                </h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-workouts">12</div>
+                        <div class="stat-label">Тренировок</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="current-level">3</div>
+                        <div class="stat-label">Уровень</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="consistency">85%</div>
+                        <div class="stat-label">Регулярность</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="next-level">15%</div>
+                        <div class="stat-label">До след. уровня</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9c.83 0 1.5-.67 1.5-1.5S7.83 8 7 8s-1.5.67-1.5 1.5S6.17 11 7 11zm8-1.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zM12 16c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"/>
+                    </svg>
+                    Статистика
+                </h2>
+                <div id="stats-chart">
+                    <p>Здесь будет график вашего прогресса</p>
+                </div>
+            </div>
+
+            <div class="card pro-overlay">
+                <h2 class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                    </svg>
+                    PRO функции
+                </h2>
+                <p>Откройте эксклюзивные темы и расширенные функции всего за 100 рублей!</p>
+                <ul>
+                    <li>Эксклюзивные темы оформления</li>
+                    <li>Расширенная статистика</li>
+                    <li>Персональные рекомендации</li>
+                    <li>Премиум-поддержка</li>
+                </ul>
+                <button class="btn btn-accent" id="get-pro">Получить PRO</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Умные тренировки дома © 2023 | Карта для оплаты: 2202 2061 0992 5151</p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно PRO -->
+    <div class="modal" id="pro-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h2>PRO подписка</h2>
+            <p>Получите эксклюзивные темы и расширенные функции всего за 100 рублей!</p>
+            <p>Переведите 100 рублей на карту <strong>2202 2061 0992 5151</strong> и введите ваш email для активации:</p>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Ваш email">
+            </div>
+            <button class="btn btn-accent" id="activate-pro">Активировать PRO</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно настроек -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h2>Настройки программы</h2>
+            <div class="form-group">
+                <label for="training-level">Ваш уровень</label>
+                <select id="training-level">
+                    <option value="beginner">Начинающий (0-3 мес.)</option>
+                    <option value="intermediate" selected>Средний (3-12 мес.)</option>
+                    <option value="advanced">Продвинутый (1+ лет)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="training-focus">Основная цель</label>
+                <select id="training-focus">
+                    <option value="strength">Сила</option>
+                    <option value="hypertrophy" selected>Мышечная масса</option>
+                    <option value="endurance">Выносливость</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="workouts-per-week">Тренировок в неделю</label>
+                <select id="workouts-per-week">
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <button class="btn btn-accent" id="save-settings">Сохранить настройки</button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Настройки сохранены!</div>
+
     <script>
-        const workouts = [
-            { name: "Отжимания", sets: 3, reps: 10, rpe: 6, progression: 2 },
-            { name: "Алмазные отжимания", sets: 3, reps: 8, rpe: 7, progression: 1 },
-            { name: "Планка с подтягиванием рук", sets: 3, reps: 12, rpe: 6, progression: 2 },
-            { name: "Обратные отжимания на стуле", sets: 3, reps: 10, rpe: 7, progression: 1 }
-        ];
-
-        let progressData = JSON.parse(localStorage.getItem('progressData')) || [];
-        let currentTheme = localStorage.getItem('theme') || 'light';
-
-        function applyTheme(theme) {
-            document.body.className = theme;
-            localStorage.setItem('theme', theme);
-        }
-
-        applyTheme(currentTheme);
-
-        document.getElementById('theme-toggle').addEventListener('click', () => {
-            currentTheme = currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'aurora' : 'light';
-            applyTheme(currentTheme);
-        });
-
-        function renderWorkoutList() {
-            const workoutList = document.getElementById('workout-list');
-            workoutList.innerHTML = '';
-            workouts.forEach((workout, index) => {
-                const div = document.createElement('div');
-                div.className = 'exercise';
-                div.innerHTML = `
-                    <span>${workout.name}: ${workout.sets} сета x ${workout.reps} повторений (RPE ${workout.rpe})</span>
-                    <button onclick="updateProgress(${index})">Завершить</button>
-                `;
-                workoutList.appendChild(div);
-            });
-        }
-
-        function updateProgress(index) {
-            document.getElementById('rpe-input').style.display = 'block';
-            document.getElementById('submit-rpe').onclick = () => {
-                const rpe = parseInt(document.getElementById('rpe-value').value);
-                if (rpe >= 1 && rpe <= 10) {
-                    workouts[index].rpe = rpe;
-                    if (rpe < 7) {
-                        workouts[index].reps += workouts[index].progression;
-                    }
-                    progressData.push({
-                        date: new Date().toISOString().split('T')[0],
-                        exercise: workouts[index].name,
-                        reps: workouts[index].reps,
-                        rpe
-                    });
-                    localStorage.setItem('progressData', JSON.stringify(progressData));
-                    document.getElementById('rpe-input').style.display = 'none';
-                    renderWorkoutList();
-                    updateChart();
-                }
-            };
-        }
-
-        function updateChart() {
-            const ctx = document.getElementById('progress-chart').getContext('2d');
-            const labels = [...new Set(progressData.map(d => d.date))];
-            const datasets = workouts.map(workout => ({
-                label: workout.name,
-                data: labels.map(label => {
-                    const entry = progressData.find(d => d.date === label && d.exercise === workout.name);
-                    return entry ? entry.reps : 0;
-                }),
-                borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
-                fill: false
-            }));
-
-            new Chart(ctx, {
-                type: 'line',
-                data: { labels, datasets },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { beginAtZero: true, title: { display: true, text: 'Повторения' } },
-                        x: { title: { display: true, text: 'Дата' } }
-                    }
-                }
-            });
-        }
-
-        document.getElementById('start-workout').addEventListener('click', () => {
-            renderWorkoutList();
-        });
-
+        // Регистрация Service Worker для PWA
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker зарегистрирован с областью: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Ошибка регистрации ServiceWorker: ', error);
+                    });
+            });
         }
 
-        renderWorkoutList();
-        updateChart();
-    </script>
-</body>
-</html>
+        // Состояние приложения
+        const state = {
+            theme: 'light',
+            pro: false,
+            workoutsCompleted: 12,
+            level: 3,
+            consistency: 85,
+            nextLevel: 15,
+            currentWorkout: {
+                completed: 1,
+                total: 4,
+                description: "Сегодня: Тренировка груди и трицепса. Всего 4 упражнения."
+            },
+            settings: {
+                level: 'intermediate',
+                focus: 'hypertrophy',
+                perWeek: 3
+            }
+        };
+
+        // Элементы DOM
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const proThemeBtn = document.getElementById('pro-theme-btn');
+        const proModal = document.getElementById('pro-modal');
+        const settingsModal = document.getElementById('settings-modal');
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+        const getProBtn = document.getElementById('get-pro');
+        const activateProBtn = document.getElementById('activate-pro');
+        const changeProgramBtn = document.getElementById('change-program');
+        const saveSettingsBtn = document.getElementById('save-settings');
+        const notification = document.getElementById('notification');
+        const finishWorkoutBtn = document.getElementById('finish-workout');
+        const progressFill = document.getElementById('workout-progress');
+        const rpeButtons = document.querySelectorAll('.rpe-btn');
+
+        // Инициализация приложения
+        function initApp() {
+            // Загрузка состояния из localStorage
+            const savedState = localStorage.getItem('workoutAppState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                Object.assign(state, parsedState);
+            }
+
+            // Применение сохраненной темы
+            document.documentElement.setAttribute('data-theme', state.theme);
+            
+            // Обновление интерфейса
+            updateUI();
+            
+            // Установка обработчиков событий
+            setupEventListeners();
+        }
+
+        // Обновление интерфейса на основе состояния
+        function updateUI() {
+            // Обновление статистики
+            document.getElementById('total-workouts').textContent = state.workoutsCompleted;
+            document.getElementById('current-level').textContent = state.level;
+            document.getElementById('consistency').textContent = state.consistency + '%';
+            document.getElementById('next-level').textContent = state.nextLevel + '%';
+            
+            // Обновление прогресса тренировки
+            const progressPercent = (state.currentWorkout.completed / state.currentWorkout.total) * 100;
+            progressFill.style.width = progressPercent + '%';
+            document.getElementById('workout-description').textContent = state.currentWorkout.description;
+            
+            // Показ/скрытие PRO контента
+            if (state.pro) {
+                document.querySelectorAll('.pro-overlay').forEach(el => {
+                    el.classList.remove('pro-overlay');
+                });
+                proThemeBtn.classList.remove('hidden');
+            } else {
+                proThemeBtn.classList.add('hidden');
+            }
+        }
+
+        // Установка обработчиков событий
+        function setupEventListeners() {
+            // Переключение темы
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const theme = this.getAttribute('data-theme');
+                    if (theme) {
+                        state.theme = theme;
+                        document.documentElement.setAttribute('data-theme', theme);
+                        saveState();
+                    } else if (this.id === 'pro-theme-btn' && state.pro) {
+                        // Здесь можно добавить переключение на PRO тему
+                        showNotification('PRO тема активирована!');
+                    }
+                });
+            });
+
+            // Открытие модального окна PRO
+            getProBtn.addEventListener('click', function() {
+                proModal.classList.add('active');
+            });
+
+            // Активация PRO
+            activateProBtn.addEventListener('click', function() {
+                const email = document.getElementById('email').value;
+                if (validateEmail(email)) {
+                    state.pro = true;
+                    saveState();
+                    updateUI();
+                    proModal.classList.remove('active');
+                    showNotification('PRO версия активирована! Спасибо за поддержку!');
+                } else {
+                    showNotification('Пожалуйста, введите корректный email');
+                }
+            });
+
+            // Открытие модального окна настроек
+            changeProgramBtn.addEventListener('click', function() {
+                // Заполняем настройки текущими значениями
+                document.getElementById('training-level').value = state.settings.level;
+                document.getElementById('training-focus').value = state.settings.focus;
+                document.getElementById('workouts-per-week').value = state.settings.perWeek;
+                
+                settingsModal.classList.add('active');
+            });
+
+            // Сохранение настроек
+            saveSettingsBtn.addEventListener('click', function() {
+                state.settings.level = document.getElementById('training-level').value;
+                state.settings.focus = document.getElementById('training-focus').value;
+                state.settings.perWeek = document.getElementById('workouts-per-week').value;
+                
+                saveState();
+                generateNewWorkout();
+                settingsModal.classList.remove('active');
+                showNotification('Программа тренировок обновлена!');
+            });
+
+            // Завершение тренировки
+            finishWorkoutBtn.addEventListener('click', function() {
+                state.workoutsCompleted++;
+                state.consistency = calculateConsistency();
+                
+                if (state.nextLevel + 25 >= 100) {
+                    state.level++;
+                    state.nextLevel = 0;
+                    showNotification('Поздравляем! Вы достигли нового уровня!');
+                } else {
+                    state.nextLevel += 25;
+                }
+                
+                saveState();
+                updateUI();
+                showNotification('Тренировка завершена! Отличная работа!');
+            });
+
+            // Оценка сложности тренировки (RPE)
+            rpeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    rpeButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const rpe = parseInt(this.getAttribute('data-rpe'));
+                    adjustWorkoutBasedOnRPE(rpe);
+                });
+            });
+
+            // Закрытие модальных окон
+            closeModalButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    proModal.classList.remove('active');
+                    settingsModal.classList.remove('active');
+                });
+            });
+
+            // Закрытие модальных окон при клике вне их
+            window.addEventListener('click', function(event) {
+                if (event.target === proModal) {
+                    proModal.classList.remove('active');
+                }
+                if (event.target === settingsModal) {
+                    settingsModal.classList.remove('active');
+                }
+            });
+        }
+
+        // Вспомогательные функции
+        function saveState() {
+            localStorage.setItem('workoutAppState', JSON.stringify(state));
+        }
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function calculateConsistency() {
+            // Простой расчет регулярности тренировок
+            return Math.min(100, state.consistency + 1);
+        }
+
+        function generateNewWorkout() {
+            // Генерация новой тренировки на основе настроек
+            const focus = state.settings.focus;
+            const level = state.settings.level;
+            
+            let description = "Сегодня: ";
+            let exercises = [];
+            
+            if (focus === 'strength') {
+                description += "Силовая тренировка груди и рук. ";
+                exercises = [
+                    { name: "Отжимания с паузой", sets: "4", reps: "5-8" },
+                    { name: "Алмазные отжимания", sets: "3", reps: "5-8" },
+                    { name: "Отжимания с дополнительной нагрузкой", sets: "3", reps: "5-8" },
+                    { name: "Обратные отжимания с паузой", sets: "3", reps: "6-10" }
+                ];
+            } else if (focus === 'hypertrophy') {
+                description += "Тренировка на массу груди и рук. ";
+                exercises = [
+                    { name: "Отжимания от пола", sets: "4", reps: "8-12" },
+                    { name: "Алмазные отжимания", sets: "3", reps: "10-15" },
+                    { name: "Отжима
