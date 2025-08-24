@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT: Тренировки на грудь и руки</title>
+    <meta name="theme-color" content="#121212">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --accent-color: #007bff;
+            --secondary-text-color: #616161;
+            --card-border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --progress-bar-bg: #e0e0e0;
+        }
+        body.dark-theme {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --accent-color: #81d4fa;
+            --secondary-text-color: #bdbdbd;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --progress-bar-bg: #333;
+        }
+        body.space-theme {
+            --bg-color: #0d0d2b;
+            --text-color: #fff;
+            --card-bg: #1c1c4e;
+            --accent-color: #ff6e40;
+            --secondary-text-color: #c5c5e0;
+            --box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            --progress-bar-bg: #3e3e7f;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjcwMCIgdmlld0JveD0iMCAwIDcwMCA3MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI3MDAiIGZpbGw9IiMwZDBkMmIiLz4KICA8Y2lyY2xlIGN4PSI1MDAiIGN5PSIxMDAiIHI9IjMiIGZpbGw9IiNmZmYiLz4KICA8Y2lyY2xlIGN4PSIxNTAiIGN5PSI0NTAiIHI9IjIiIGZpbGw9IiNmZmYiLz4KICA8cGF0aCBkPSJNMjAwLDIwMGwzMDAsMjAwTDUwLDQwMCBMNTAsNjAwTDI1MCw1NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMTMwIiBjeT0iMTAwIiByPSIyIiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iNjAwIiBjeT0iNjAwIiByPSIzIiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTUwLDYwMEw2NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMzUwIiByPSI0IiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTUwLDYwMEw2NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMzUwIiByPSI0IiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTMwLDY1MEw2NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMzUwIiByPSI0IiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTMwLDY1MEw2NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iNjUwIiByPSIxIiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMzUwIiByPSI0IiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTMwLDY1MEw2NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iNjUwIiByPSIxIiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTgwLDYwMEw1NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMzUwIiByPSI0IiBmaWxsPSIjZmZmIi8+CiAgPHBhdGggZD0iTTgwLDYwMEw1NTAsNjUwTDU1MCw2NTBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTgwLDEwMEw2NTAsMTUwTDU1MCw1MDBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzJjNjAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iMzUwIiByPSIyIiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1NTAiIHI9IjEiIGZpbGw9IiNmZmYiLz4KICA8Y2lyY2xlIGN4PSI2NTAiIGN5PSI0NTAiIHI9IjMiIGZpbGw9IiNmZmYiLz4KPC9zdmc+');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s, color 0.4s;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        .theme-switcher {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .theme-button {
+            background-color: var(--card-bg);
+            border: 1px solid var(--secondary-text-color);
+            color: var(--text-color);
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0 5px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+        .theme-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+        .theme-button.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+            transition: background-color 0.4s, box-shadow 0.4s;
+        }
+        .exercise-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .exercise-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--progress-bar-bg);
+        }
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+        .exercise-name {
+            font-weight: bold;
+            flex-grow: 1;
+        }
+        .reps {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .progress-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .progress-label {
+            font-weight: bold;
+        }
+        .progress-bar {
+            width: 70%;
+            height: 10px;
+            background-color: var(--progress-bar-bg);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.5s ease-in-out;
+        }
+        .progress-value {
+            font-weight: bold;
+            min-width: 40px;
+            text-align: right;
+        }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+        .next-day-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .next-day-button:active {
+            transform: scale(0.98);
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .theme-button {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <header>
+            <h1>💪 FIT</h1>
+            <p>Умная программа тренировок</p>
+        </header>
+
+        <div class="theme-switcher">
+            <button class="theme-button active" data-theme="dark">Тёмная</button>
+            <button class="theme-button" data-theme="light">Светлая</button>
+            <button class="theme-button" data-theme="space">Космос</button>
+        </div>
+
+        <div class="card">
+            <h2>Программа на сегодня</h2>
+            <ul id="exercise-list" class="exercise-list">
+                </ul>
+        </div>
+
+        <div class="card">
+            <h2>Твой прогресс</h2>
+            <div class="progress-section">
+                <span class="progress-label">Пройдено дней:</span>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <span id="progress-value" class="progress-value">0%</span>
+            </div>
+            <div class="progress-info">
+                <span id="days-completed">0 дней</span>
+                <span id="total-days">/ 30 дней</span>
+            </div>
+        </div>
+
+        <button id="next-day-button" class="next-day-button">Отметить день завершенным</button>
+    </div>
+
+    <script>
+        // Динамическая генерация PWA файлов
+        const manifestContent = {
+            "name": "FIT Тренировки",
+            "short_name": "FIT",
+            "description": "Умная программа тренировок на грудь и руки",
+            "start_url": "./",
+            "display": "standalone",
+            "background_color": "#121212",
+            "theme_color": "#81d4fa",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz4KICA8cGF0aCBkPSJNMTIgNnY2bDMtMCIvPgogIDxwYXRoIGQ9Ik0xMiAxMmwzIDMiLz4KPC9zdmc+",
+                    "sizes": "48x48",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz4KICA8cGF0aCBkPSJNMTIgNnY2bDMtMCIvPgogIDxwYXRoIGQ9Ik0xMiAxMmwzIDMiLz4KPC9zdmc+",
+                    "sizes": "72x72",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz4KICA8cGF0aCBkPSJNMTIgNnY2bDMtMCIvPgogIDxwYXRoIGQ9Ik0xMiAxMmwzIDMiLz4KPC9zdmc+",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz4KICA8cGF0aCBkPSJNMTIgNnY2bDMtMCIvPgogIDxwYXRoIGQ9Ik0xMiAxMmwzIDMiLz4KPC9zdmc+",
+                    "sizes": "128x128",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz4KICA8cGF0aCBkPSJNMTIgNnY2bDMtMCIvPgogIDxwYXRoIGQ9Ik0xMiAxMmwzIDMiLz4KPC9zdmc+",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz4KICA8cGF0aCBkPSJNMTIgNnY2bDMtMCIvPgogIDxwYXRoIGQ9Ik0xMiAxMmwzIDMiLz4KPC9zdmc+",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml"
+                }
+            ]
+        };
+
+        const swCode = `
+            const CACHE_NAME = 'fit-app-cache-v1';
+            const urlsToCache = [
+                './'
+            ];
+            self.addEventListener('install', (event) => {
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then((cache) => {
+                            console.log('Opened cache');
+                            return cache.addAll(urlsToCache);
+                        })
+                );
+            });
+            self.addEventListener('fetch', (event) => {
+                event.respondWith(
+                    caches.match(event.request)
+                        .then((response) => {
+                            if (response) {
+                                return response;
+                            }
+                            return fetch(event.request);
+                        })
+                );
+            });
+        `;
+
+        // Создание и регистрация manifest.json и sw.js
+        if ('serviceWorker' in navigator) {
+            const blobManifest = new Blob([JSON.stringify(manifestContent)], { type: 'application/json' });
+            const manifestURL = URL.createObjectURL(blobManifest);
+            const linkElement = document.querySelector('link[rel="manifest"]');
+            linkElement.setAttribute('href', manifestURL);
+
+            window.addEventListener('load', () => {
+                const blobSw = new Blob([swCode], { type: 'application/javascript' });
+                const swURL = URL.createObjectURL(blobSw);
+                navigator.serviceWorker.register(swURL).then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+        
+        // Логика приложения
+        const exercises = {
+            chest: [
+                { name: "Отжимания от пола", reps: "3 подхода x 10-15 повторений" },
+                { name: "Отжимания на брусьях", reps: "3 подхода x 8-12 повторений" },
+                { name: "Отжимания с широкой постановкой рук", reps: "3 подхода x 10-15 повторений" }
+            ],
+            arms: [
+                { name: "Обратные отжимания (трицепс)", reps: "3 подхода x 10-15 повторений" },
+                { name: "Алмазные отжимания (трицепс)", reps: "3 подхода x 8-12 повторений" },
+                { name: "Сгибание рук с рюкзаком (бицепс)", reps: "3 подхода x 10-15 повторений" }
+            ]
+        };
+
+        const themeButtons = document.querySelectorAll('.theme-button');
+        const nextDayButton = document.getElementById('next-day-button');
+        const exerciseList = document.getElementById('exercise-list');
+        const progressFill = document.getElementById('progress-fill');
+        const progressValue = document.getElementById('progress-value');
+        const daysCompletedSpan = document.getElementById('days-completed');
+
+        const totalDays = 30;
+        let daysCompleted = parseInt(localStorage.getItem('daysCompleted')) || 0;
+        let currentTheme = localStorage.getItem('currentTheme') || 'dark';
+
+        // Инициализация
+        document.body.className = `${currentTheme}-theme`;
+        updateThemeButtons(currentTheme);
+        renderExercises();
+        updateProgress();
+
+        function renderExercises() {
+            const allExercises = [...exercises.chest, ...exercises.arms];
+            exerciseList.innerHTML = '';
+            allExercises.forEach(ex => {
+                const li = document.createElement('li');
+                li.className = 'exercise-item';
+                li.innerHTML = `
+                    <span class="exercise-name">${ex.name}</span>
+                    <span class="reps">${ex.reps}</span>
+                `;
+                exerciseList.appendChild(li);
+            });
+        }
+
+        function updateProgress() {
+            const progress = (daysCompleted / totalDays) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressValue.textContent = `${Math.round(progress)}%`;
+            daysCompletedSpan.textContent = `${daysCompleted} дней`;
+        }
+
+        function updateThemeButtons(theme) {
+            themeButtons.forEach(btn => {
+                if (btn.dataset.theme === theme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.dataset.theme;
+                document.body.className = `${theme}-theme`;
+                localStorage.setItem('currentTheme', theme);
+                updateThemeButtons(theme);
+            });
+        });
+
+        nextDayButton.addEventListener('click', () => {
+            if (daysCompleted < totalDays) {
+                daysCompleted++;
+                localStorage.setItem('daysCompleted', daysCompleted);
+                updateProgress();
+                alert(`Отличная работа! День ${daysCompleted} завершен.`);
+            } else {
+                alert("Поздравляю! Программа завершена! Начни снова, чтобы добиться ещё лучших результатов.");
+                daysCompleted = 0;
+                localStorage.setItem('daysCompleted', daysCompleted);
+                updateProgress();
+            }
+        });
+    </script>
+</body>
+</html>
