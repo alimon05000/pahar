@@ -848,4 +848,84 @@
                 exercises = [
                     { name: "Отжимания от пола", sets: "4", reps: "8-12" },
                     { name: "Алмазные отжимания", sets: "3", reps: "10-15" },
-                    { name: "Отжима
+                    { name: "Отжимания с узкой постановкой", sets: "3", reps: "до отказа" },
+                    { name: "Обратные отжимания от стула", sets: "3", reps: "12-15" }
+                ];
+            } else {
+                description += "Тренировка на выносливость груди и рук. ";
+                exercises = [
+                    { name: "Отжимания в быстром темпе", sets: "4", reps: "15-20" },
+                    { name: "Алмазные отжимания", sets: "3", reps: "15-20" },
+                    { name: "Отжимания с чередованием", sets: "3", reps: "макс. повторений" },
+                    { name: "Обратные отжимания", sets: "3", reps: "15-20" }
+                ];
+            }
+            
+            if (level === 'beginner') {
+                description += "Отлично подходит для начинающих!";
+                exercises.forEach(ex => {
+                    ex.sets = Math.max(2, parseInt(ex.sets) - 1).toString();
+                });
+            } else if (level === 'advanced') {
+                description += "Продвинутый уровень интенсивности!";
+                exercises.forEach(ex => {
+                    ex.sets = (parseInt(ex.sets) + 1).toString();
+                });
+                exercises.push({ name: "Плиометрические отжимания", sets: "3", reps: "5-8" });
+            } else {
+                description += "Идеальная тренировка для среднего уровня!";
+            }
+            
+            // Обновляем состояние
+            state.currentWorkout = {
+                completed: 0,
+                total: exercises.length,
+                description: description
+            };
+            
+            // Здесь можно обновить список упражнений в DOM
+            const exerciseList = document.getElementById('exercise-list');
+            exerciseList.innerHTML = '';
+            
+            exercises.forEach((ex, index) => {
+                const li = document.createElement('li');
+                li.className = 'exercise-item';
+                li.innerHTML = `
+                    <div class="exercise-info">
+                        <div class="exercise-title">${ex.name}</div>
+                        <div class="exercise-details">${ex.sets} подхода по ${ex.reps} повторений</div>
+                    </div>
+                    <button class="btn ${index === 0 ? 'btn-secondary' : ''}">${index === 0 ? 'Выполнено' : 'Начать'}</button>
+                `;
+                exerciseList.appendChild(li);
+            });
+            
+            // Добавляем обработчики для кнопок упражнений
+            document.querySelectorAll('.exercise-item .btn').forEach((btn, idx) => {
+                btn.addEventListener('click', function() {
+                    if (this.textContent === 'Начать') {
+                        this.textContent = 'Выполнено';
+                        this.classList.add('btn-secondary');
+                        state.currentWorkout.completed++;
+                        updateUI();
+                    }
+                });
+            });
+        }
+
+        function adjustWorkoutBasedOnRPE(rpe) {
+            // Корректировка программы на основе оценки сложности (RPE)
+            if (rpe <= 6) {
+                showNotification("Следующую тренировку увеличим интенсивность!");
+            } else if (rpe >= 9) {
+                showNotification("Следующую тренировку немного уменьшим нагрузку.");
+            } else {
+                showNotification("Отлично! Продолжаем в том же духе!");
+            }
+        }
+
+        // Инициализация приложения после загрузки DOM
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
